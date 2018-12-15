@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     static final String CLIENT_ID = "7nPoOjcQhQvc7pGZsGh5";
     static final String CLIENT_SECRET = "IRUWk0smf9";
+    static final int TIMEOUT_VALUE = 1000;
+
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     Button btnSearch;
@@ -86,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
             movieListParser(s);
             movieAdapter.notifyDataSetChanged();
             mRecyclerView.setAdapter(movieAdapter);
+
+            if (movieInfoList.size() == 0) {
+                Toast.makeText(MainActivity.this, String.format("'%s' 검색결과가 없습니다", editKeyword.getText().toString()), Toast.LENGTH_SHORT).show();
+            }
+
             asyncDialog.dismiss();
         }
     }
@@ -96,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + keyword;
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setConnectTimeout(TIMEOUT_VALUE);
+            con.setReadTimeout(TIMEOUT_VALUE);
             con.setRequestMethod("GET");
             con.setRequestProperty("X-Naver-Client-Id", CLIENT_ID);
             con.setRequestProperty("X-Naver-Client-Secret", CLIENT_SECRET);
@@ -128,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONArray arr = new JSONObject(jsonString).getJSONArray("items");
             movieInfoList.clear();
+
+            if (arr.length() == 0) return;
 
             for (int i=0; i<arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);

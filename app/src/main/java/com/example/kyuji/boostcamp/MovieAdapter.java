@@ -52,7 +52,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
         MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
 
-        //TODO: 이미지 Thread 로드
         Glide.with(movieViewHolder.itemView.getContext())
                 .load(movieList.get(i).getImage())
                 .into(movieViewHolder.imgPoster);
