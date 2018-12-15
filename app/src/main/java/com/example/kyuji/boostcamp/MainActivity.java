@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setup();
+    }
+
+    public void setup() {
         btnSearch = findViewById(R.id.btn_search);
         editKeyword = findViewById(R.id.edit_keyword);
 
