@@ -9,28 +9,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-//naver api
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     static final String CLIENT_ID = "7nPoOjcQhQvc7pGZsGh5";
     static final String CLIENT_SECRET = "IRUWk0smf9";
+    static final int TIMEOUT_VALUE = 1000;
+
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     Button btnSearch;
     EditText editKeyword;
 
-    ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
+    List<Movie> movieList = new ArrayList<>();
     MovieAdapter movieAdapter;
 
     @Override
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setup();
+    }
+
+    public void setup() {
         btnSearch = findViewById(R.id.btn_search);
         editKeyword = findViewById(R.id.edit_keyword);
 
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        movieAdapter = new MovieAdapter(movieInfoList);
+        movieAdapter = new MovieAdapter(movieList);
         mRecyclerView.setAdapter(movieAdapter);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
             movieListParser(s);
             movieAdapter.notifyDataSetChanged();
             mRecyclerView.setAdapter(movieAdapter);
+
+            if (movieList.size() == 0) {
+                Toast.makeText(MainActivity.this, String.format("'%s' 검색결과가 없습니다", editKeyword.getText().toString()), Toast.LENGTH_SHORT).show();
+            }
+
             asyncDialog.dismiss();
         }
     }
@@ -96,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
             String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + keyword;
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setConnectTimeout(TIMEOUT_VALUE);
+            con.setReadTimeout(TIMEOUT_VALUE);
             con.setRequestMethod("GET");
             con.setRequestProperty("X-Naver-Client-Id", CLIENT_ID);
             con.setRequestProperty("X-Naver-Client-Secret", CLIENT_SECRET);
@@ -127,21 +140,21 @@ public class MainActivity extends AppCompatActivity {
     public void movieListParser(String jsonString) {
         try {
             JSONArray arr = new JSONObject(jsonString).getJSONArray("items");
-            movieInfoList.clear();
+            movieList.clear();
+
+            if (arr.length() == 0) return;
 
             for (int i=0; i<arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                MovieInfo info = new MovieInfo();
+                Movie movie = new Movie(obj.getString("title"),
+                        obj.getString("link"),
+                        obj.getString("image"),
+                        obj.getString("pubDate"),
+                        obj.getString("director"),
+                        obj.getString("actor"),
+                        Float.parseFloat(obj.getString("userRating"))/2);
 
-                info.setTitle(obj.getString("title"));
-                info.setLink(obj.getString("link"));
-                info.setImage(obj.getString("image"));
-                info.setPubDate(obj.getString("pubDate"));
-                info.setDirector(obj.getString("director"));
-                info.setActor(obj.getString("actor"));
-                info.setUserRating(Float.parseFloat(obj.getString("userRating"))/2);
-
-                movieInfoList.add(info);
+                movieList.add(movie);
             }
         } catch (Exception e) {
             System.out.println(e);
