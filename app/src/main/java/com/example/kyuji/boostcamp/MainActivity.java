@@ -146,17 +146,15 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i=0; i<arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                Movie info = new Movie();
+                Movie movie = new Movie(obj.getString("title"),
+                        obj.getString("link"),
+                        obj.getString("image"),
+                        obj.getString("pubDate"),
+                        obj.getString("director"),
+                        obj.getString("actor"),
+                        Float.parseFloat(obj.getString("userRating"))/2);
 
-                info.setTitle(obj.getString("title"));
-                info.setLink(obj.getString("link"));
-                info.setImage(obj.getString("image"));
-                info.setPubDate(obj.getString("pubDate"));
-                info.setDirector(obj.getString("director"));
-                info.setActor(obj.getString("actor"));
-                info.setUserRating(Float.parseFloat(obj.getString("userRating"))/2);
-
-                movieList.add(info);
+                movieList.add(movie);
             }
         } catch (Exception e) {
             System.out.println(e);
