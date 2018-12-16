@@ -25,13 +25,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
-            android:text="보헤미안 랩소디"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/item_rating_user"
             app:layout_constraintLeft_toRightOf="@+id/item_img_poster"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="보헤미안 랩소디"/>
 
         <RatingBar
             android:id="@+id/item_rating_user"
@@ -55,13 +55,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
-            android:text="2018"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/item_rating_user"
             app:layout_constraintBottom_toTopOf="@+id/item_txt_director"
             app:layout_constraintLeft_toRightOf="@+id/item_img_poster"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="2018"/>
 
         <TextView
             android:id="@+id/item_txt_director"
@@ -69,13 +69,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
-            android:text="브라이언 싱어"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/item_txt_pub_date"
             app:layout_constraintBottom_toTopOf="@+id/item_txt_actor"
             app:layout_constraintLeft_toRightOf="@+id/item_img_poster"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="브라이언 싱어"/>
 
         <TextView
             android:id="@+id/item_txt_actor"
@@ -83,12 +83,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
-            android:text="라미 말렉|벤 하디|귈림 리|조 마젤란|"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/item_txt_director"
             app:layout_constraintLeft_toRightOf="@+id/item_img_poster"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="라미 말렉|벤 하디|귈림 리|조셉 마젤로|루시 보인턴|"/>
 
     </android.support.constraint.ConstraintLayout>
 
