@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private List<Movie> movieList;
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -45,9 +45,16 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.movieList = movieList;
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
-        MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_list, parent, false);
+        return new MovieViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, final int i) {
+        MovieViewHolder movieViewHolder = holder;
 
         Glide.with(movieViewHolder.itemView.getContext())
                 .load(movieList.get(i).getImage())
@@ -65,13 +72,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 view.getContext().startActivity(intent);
             }
         });
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_list, parent, false);
-        return new MovieViewHolder(v);
     }
 
     @Override
