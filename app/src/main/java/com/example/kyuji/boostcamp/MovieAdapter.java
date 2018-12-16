@@ -14,14 +14,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<MovieInfo> movieList;
+    private List<Movie> movieList;
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout itemLayout;
@@ -44,7 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public MovieAdapter(ArrayList<MovieInfo> movieList) {
+    public MovieAdapter(List<Movie> movieList) {
         this.movieList = movieList;
     }
 
