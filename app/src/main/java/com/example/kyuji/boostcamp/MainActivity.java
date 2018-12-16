@@ -14,16 +14,15 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-//naver api
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     static final String CLIENT_ID = "7nPoOjcQhQvc7pGZsGh5";
     static final String CLIENT_SECRET = "IRUWk0smf9";
     static final int TIMEOUT_VALUE = 1000;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSearch;
     EditText editKeyword;
 
-    ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
+    List<Movie> movieList = new ArrayList<>();
     MovieAdapter movieAdapter;
 
     @Override
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        movieAdapter = new MovieAdapter(movieInfoList);
+        movieAdapter = new MovieAdapter(movieList);
         mRecyclerView.setAdapter(movieAdapter);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             movieAdapter.notifyDataSetChanged();
             mRecyclerView.setAdapter(movieAdapter);
 
-            if (movieInfoList.size() == 0) {
+            if (movieList.size() == 0) {
                 Toast.makeText(MainActivity.this, String.format("'%s' 검색결과가 없습니다", editKeyword.getText().toString()), Toast.LENGTH_SHORT).show();
             }
 
@@ -141,13 +140,13 @@ public class MainActivity extends AppCompatActivity {
     public void movieListParser(String jsonString) {
         try {
             JSONArray arr = new JSONObject(jsonString).getJSONArray("items");
-            movieInfoList.clear();
+            movieList.clear();
 
             if (arr.length() == 0) return;
 
             for (int i=0; i<arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                MovieInfo info = new MovieInfo();
+                Movie info = new Movie();
 
                 info.setTitle(obj.getString("title"));
                 info.setLink(obj.getString("link"));
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 info.setActor(obj.getString("actor"));
                 info.setUserRating(Float.parseFloat(obj.getString("userRating"))/2);
 
-                movieInfoList.add(info);
+                movieList.add(info);
             }
         } catch (Exception e) {
             System.out.println(e);

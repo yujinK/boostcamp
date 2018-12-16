@@ -1,6 +1,6 @@
 package com.example.kyuji.boostcamp;
 
-public class MovieInfo {
+public class Movie {
     private String title;
     private String link;
     private String image;
