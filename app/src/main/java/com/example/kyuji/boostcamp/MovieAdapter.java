@@ -15,47 +15,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private List<Movie> movieList;
-
-    public MovieAdapter(List<Movie> movieList) {
-        this.movieList = movieList;
-    }
-
-    @NonNull
-    @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_list, parent, false);
-        return new MovieViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, final int i) {
-        Glide.with(holder.itemView.getContext())
-                .load(movieList.get(i).getImage())
-                .into(holder.imgPoster);
-        holder.txtTitle.setText(Html.fromHtml(movieList.get(i).getTitle()));
-        holder.ratingUser.setRating(movieList.get(i).getUserRating());
-        holder.txtPubDate.setText(movieList.get(i).getPubDate());
-        holder.txtDirector.setText(movieList.get(i).getDirector());
-        holder.txtActor.setText(movieList.get(i).getActor());
-
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(movieList.get(i).getLink()));
-                view.getContext().startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return movieList.size();
-    }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout itemLayout;
@@ -76,5 +39,43 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             txtDirector = view.findViewById(R.id.item_txt_director);
             txtActor = view.findViewById(R.id.item_txt_actor);
         }
+    }
+
+    public MovieAdapter(List<Movie> movieList) {
+        this.movieList = movieList;
+    }
+
+    @NonNull
+    @Override
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_list, parent, false);
+        return new MovieViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, final int i) {
+        MovieViewHolder movieViewHolder = holder;
+
+        Glide.with(movieViewHolder.itemView.getContext())
+                .load(movieList.get(i).getImage())
+                .into(movieViewHolder.imgPoster);
+        movieViewHolder.txtTitle.setText(Html.fromHtml(movieList.get(i).getTitle()));
+        movieViewHolder.ratingUser.setRating(movieList.get(i).getUserRating());
+        movieViewHolder.txtPubDate.setText(movieList.get(i).getPubDate());
+        movieViewHolder.txtDirector.setText(movieList.get(i).getDirector());
+        movieViewHolder.txtActor.setText(movieList.get(i).getActor());
+
+        movieViewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(movieList.get(i).getLink()));
+                view.getContext().startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return movieList.size();
     }
 }
