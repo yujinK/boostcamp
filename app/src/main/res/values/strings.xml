@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BoostCamp</string>
+    <string name="CLIENT_ID">7nPoOjcQhQvc7pGZsGh5</string>
+    <string name="CLIENT_SECRET">IRUWk0smf9</string>
 </resources>

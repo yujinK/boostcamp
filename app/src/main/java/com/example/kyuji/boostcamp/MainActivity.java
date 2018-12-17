@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    static final String CLIENT_ID = "7nPoOjcQhQvc7pGZsGh5";
-    static final String CLIENT_SECRET = "IRUWk0smf9";
     static final int TIMEOUT_VALUE = 1000;
 
     RecyclerView mRecyclerView;
@@ -113,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             con.setConnectTimeout(TIMEOUT_VALUE);
             con.setReadTimeout(TIMEOUT_VALUE);
             con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", CLIENT_ID);
-            con.setRequestProperty("X-Naver-Client-Secret", CLIENT_SECRET);
+            con.setRequestProperty("X-Naver-Client-Id", getString(R.string.CLIENT_ID));
+            con.setRequestProperty("X-Naver-Client-Secret", getString(R.string.CLIENT_SECRET));
             int responseCode = con.getResponseCode();
             BufferedReader br;
 
